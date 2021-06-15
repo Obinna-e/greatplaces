@@ -18,7 +18,8 @@ class _ImageInputState extends State<ImageInput> {
       maxWidth: 600,
     );
     setState(() {
-      _storedImage = File(imageFile.path); //convert PickedFile type to file
+      _storedImage =
+          File(imageFile.path); //convert PickedFile type to file type
     });
   }
 
