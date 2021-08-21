@@ -1,6 +1,7 @@
 import 'package:flutter/foundation.dart';
 
 import '../models/place.dart';
+import '../helpers/db_helper.dart';
 
 import 'dart:io';
 
@@ -25,6 +26,29 @@ class GreatPlaces with ChangeNotifier {
         image: pickedImage);
 
     _items.add(newPlace);
+    notifyListeners();
+    DBHelper.insert('user_places', {
+      'id': newPlace.id,
+      'title': newPlace.title,
+      'image': newPlace.image.path, //storing path because can't store img in db
+    });
+    //keys in map have to match field names in CREATE TABLE
+  }
+
+  Future<void> fetchAndSetPlaces() async {
+    final dataList = await DBHelper.getData('user_places');
+    _items = dataList
+        .map(
+          (item) => Place(
+            id: item['id'],
+            title: item['title'],
+            image: File(item['image']),
+            /*Need image here not path so used File to create a file from
+               image path and load file to memory*/
+            location: null,
+          ),
+        )
+        .toList();
     notifyListeners();
   }
 }
