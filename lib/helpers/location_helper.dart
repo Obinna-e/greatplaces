@@ -1,6 +1,6 @@
-import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:flutter_config/flutter_config.dart';
 
-final String googleApiKey = dotenv.env['GOOGLE_API_KEY'];
+final String googleApiKey = FlutterConfig.get('GOOGLE_API_KEY');
 
 class LocationHelper {
   static String generateLocationPreviewImage({

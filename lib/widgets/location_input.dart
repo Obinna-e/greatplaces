@@ -27,11 +27,15 @@ class _LocationInputState extends State<LocationInput> {
   Future<void> _selectOnMap() async {
     final selectedLocation = await Navigator.of(context).push(
       MaterialPageRoute(
+        fullscreenDialog: true,
         builder: (ctx) => MapScreen(
           isSelecting: true,
         ),
       ),
     ); //as this is async, can get selected location when page is popped
+    if (selectedLocation == null) {
+      return;
+    }
   }
 
   @override
@@ -73,9 +77,7 @@ class _LocationInputState extends State<LocationInput> {
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: ElevatedButton.icon(
-                onPressed: () {
-                  print(FlutterConfig.get('GOOGLE_API_KEY'));
-                },
+                onPressed: _selectOnMap,
                 icon: Icon(Icons.map),
                 label: Text('Select on Map'),
                 style: ElevatedButton.styleFrom(
