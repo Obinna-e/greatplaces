@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:location/location.dart';
+import 'package:flutter_config/flutter_config.dart';
 
 import '../helpers/location_helper.dart';
+import '../screens/map_screen.dart';
 
 class LocationInput extends StatefulWidget {
   @override
@@ -20,6 +22,16 @@ class _LocationInputState extends State<LocationInput> {
     setState(() {
       _previewImageUrl = staticMapImageUrl;
     });
+  }
+
+  Future<void> _selectOnMap() async {
+    final selectedLocation = await Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (ctx) => MapScreen(
+          isSelecting: true,
+        ),
+      ),
+    ); //as this is async, can get selected location when page is popped
   }
 
   @override
@@ -62,7 +74,7 @@ class _LocationInputState extends State<LocationInput> {
               padding: const EdgeInsets.all(8.0),
               child: ElevatedButton.icon(
                 onPressed: () {
-                  print('hi');
+                  print(FlutterConfig.get('GOOGLE_API_KEY'));
                 },
                 icon: Icon(Icons.map),
                 label: Text('Select on Map'),
